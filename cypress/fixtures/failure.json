@@ -1,0 +1,9 @@
+{
+  "code": 1001,
+  "message": "Some Mocked Failure Message",
+  "description": "Some Mocked Failure Description",
+  "timestamp": "2021-12-12 12:30:58.292151",
+  "path": "/about?",
+  "name": "Estuary-Discovery",
+  "version": "4.2.4-SNAPSHOT"
+}

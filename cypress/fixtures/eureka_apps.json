@@ -1,0 +1,39 @@
+{
+  "code": 1000,
+  "message": "Success",
+  "description": {
+    "estuary-discovery": [
+      {
+        "ipAddr": "localhost",
+        "port": "8081",
+        "securePort": "8081",
+        "app": "estuary-discovery",
+        "metadata": {
+          "management.port": "8081"
+        },
+        "homePageUrl": "http://localhost:8081/",
+        "healthCheckUrl": "http://localhost:8081/ping",
+        "statusPageUrl": "http://localhost:8081/ping"
+      }
+    ],
+    "estuary-agent-java": [
+      {
+        "ipAddr": "192.168.0.41",
+        "port": "8082",
+        "securePort": "443",
+        "app": "estuary-agent-java",
+        "metadata": {
+          "name": "Estuary-Agent",
+          "management.port": "8082"
+        },
+        "homePageUrl": "http://localhost:8082/",
+        "healthCheckUrl": "http://localhost:8082/actuator/health",
+        "statusPageUrl": "http://localhost:8082/actuator/info"
+      }
+    ]
+  },
+  "path": "/eureka/apps?",
+  "timestamp": "2021-12-19 14:51:58.995826",
+  "name": "Estuary-Discovery",
+  "version": "4.2.4"
+}

@@ -1,0 +1,32 @@
+{
+  "code": 1000,
+  "message": "Success",
+  "description": [
+    {
+      "code": 1000,
+      "message": "Success",
+      "description": [
+        {
+          "id": 3,
+          "type": "download",
+          "sourceFileName": "README.md",
+          "sourceFilePath": "C:\\Users\\user\\IdeaProjects\\estuary-agent-java\\README.md",
+          "targetFileName": null,
+          "targetFilePath": null,
+          "targetFolder": null,
+          "fileSize": 7718
+        }
+      ],
+      "timestamp": "2021-12-19 15:40:06.493374",
+      "path": "/files?",
+      "name": "Estuary-Agent",
+      "version": "4.2.4-SNAPSHOT",
+      "homePageUrl": "http://localhost:8082/",
+      "ip_port": "192.168.0.41:8082"
+    }
+  ],
+  "path": "/agents/files?",
+  "timestamp": "2021-12-19 15:40:06.497385",
+  "name": "Estuary-Discovery",
+  "version": "4.2.4"
+}

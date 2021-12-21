@@ -1,0 +1,61 @@
+{
+  "code": 1000,
+  "message": "Success",
+  "description": [
+    {
+      "code": 1000,
+      "message": "Success",
+      "description": [
+        {
+          "id": 4,
+          "command": "invalid",
+          "code": 1,
+          "out": "",
+          "err": "'invalid' is not recognized as an internal or external command,\r\noperable program or batch file.\r\n",
+          "startedAt": "2021-12-19 14:14:04.540008",
+          "finishedAt": "2021-12-19 14:14:04.602494",
+          "duration": 0.062,
+          "pid": 11252,
+          "status": "finished",
+          "args": "cmd.exe,/c,invalid"
+        },
+        {
+          "id": 2,
+          "command": "ping -n 200 127.0.0.1",
+          "code": 0,
+          "out": "0.1: bytes=32 time<1ms TTL=128\r\nReply from 127.0.0.1: bytes=32 time<1ms TTL=128\r\nReply from 127.0.0.1: bytes=32 time<1ms TTL=128\r\nReply from 127.0.0.1: bytes=32 time<1ms TTL=128\r\nReply from 127.0.0.1: bytes=32 time<1ms TTL=128\r\nReply from 127.0.0.1: bytes=32 time<1ms TTL=128\r\nReply from 127.0.0.1: bytes=32 time<1ms TTL=128\r\nReply from 127.0.0.1: bytes=32 time<1ms TTL=128\r\nReply from 127.0.0.1: bytes=32 time<1ms TTL=128\r\nReply from 127.0.0.1: bytes=32 time<1ms TTL=128\r\nReply from 127.0.0.1: bytes=32 time<1ms TTL=128\r\nReply from 127.0.0.1: bytes=32 time<1ms TTL=128\r\nReply from 127.0.0.1: bytes=32 time<1ms TTL=128\r\nReply from 127.0.0.1: bytes=32 time<1ms TTL=128\r\nReply from 127.0.0.1: bytes=32 time<1ms TTL=128\r\nReply from 127.0.0.1: bytes=32 time<1ms TTL=128\r\nReply from 127.0.0.1: bytes=32 time<1ms TTL=128\r\nReply from 127.0.0.1: bytes=32 time<1ms TTL=128\r\nReply from 127.0.0.1: bytes=32 time<1ms TTL=128\r\nReply from 127.0.0.1: bytes=32 time<1ms TTL=128\r\nReply from 127.0.0.1: bytes=32 time<1ms TTL=128\r\nReply from 127.0.0.1: bytes=32 time<1ms TTL=128\r\nReply from 127.0.0.1: bytes=32 time<1ms TTL=128\r\nReply from 127.0.0.1: bytes=32 time<1ms TTL=128\r\nReply from 127.0.0.1: bytes=32 time<1ms TTL=128\r\nReply from 127.0.0.1: bytes=32 time<1ms TTL=128\r\nReply from 127.0.0.1: bytes=32 time<1ms TTL=128\r\nReply from 127.0.0.1: bytes=32 time<1ms TTL=128\r\nReply from 127.0.0.1: bytes=32 time<1ms TTL=128\r\nReply from 127.0.0.1: bytes=32 time<1ms TTL=128\r\nReply from 127.0.0.1: bytes=32 time<1ms TTL=128\r\nReply from 127.0.0.1: bytes=32 time<1ms TTL=128\r\nReply from 127.0.0.1: bytes=32 time<1ms TTL=128\r\nReply from 127.0.0.1: bytes=32 time<1ms TTL=128\r\nReply from 127.0.0.1: bytes=32 time<1ms TTL=128\r\nReply from 127.0.0.1: bytes=32 time<1ms TTL=128\r\nReply from 127.0.0.1: bytes=32 time<1ms TTL=128\r\nReply from 127.0.0.1: bytes=32 time<1ms TTL=128\r\nReply from 127.0.0.1: bytes=32 time<1ms TTL=128\r\nReply from 127.0.0.1: bytes=32 time<1ms TTL=128\r\nReply from 127.0.0.1: bytes=32 time<1ms TTL=128\r\nReply from 127.0.0.1: bytes=32 time<1ms TTL=128\r\nReply from 127.0.0.1: bytes=32 time<1ms TTL=128\r\nReply from 127.0.0.1: bytes=32 time<1ms TTL=128\r\nReply from 127.0.0.1: bytes=32 time<1ms TTL=128\r\nReply from 127.0.0.1: bytes=32 time<1ms TTL=128\r\nReply from 127.0.0.1: bytes=32 time<1ms TTL=128\r\nReply from 127.0.0.1: bytes=32 time<1ms TTL=128\r\nReply from 127.0.0.1: bytes=32 time<1ms TTL=128\r\nReply from 127.0.0.1: bytes=32 time<1ms TTL=128\r\nReply from 127.0.0.1: bytes=32 time<1ms TTL=128\r\nReply from 127.0.0.1: bytes=32 time<1ms TTL=128\r\nReply from 127.0.0.1: bytes=32 time<1ms TTL=128\r\nReply from 127.0.0.1: bytes=32 time<1ms TTL=128\r\nReply from 127.0.0.1: bytes=32 time<1ms TTL=128\r\nReply from 127.0.0.1: bytes=32 time<1ms TTL=128\r\nReply from 127.0.0.1: bytes=32 time<1ms TTL=128\r\nReply from 127.0.0.1: bytes=32 time<1ms TTL=128\r\nReply from 127.0.0.1: bytes=32 time<1ms TTL=128\r\nReply from 127.0.0.1: bytes=32 time<1ms TTL=128\r\nReply from 127.0.0.1: bytes=32 time<1ms TTL=128\r\nReply from 127.0.0.1: bytes=32 time<1ms TTL=128\r\nReply from 127.0.0.1: bytes=32 time<1ms TTL=128\r\nReply from 127.0.0.1: bytes=32 time<1ms TTL=128\r\nReply from 127.0.0.1: bytes=32 time<1ms TTL=128\r\nReply from 127.0.0.1: bytes=32 time<1ms TTL=128\r\nReply from 127.0.0.1: bytes=32 time<1ms TTL=128\r\nReply from 127.0.0.1: bytes=32 time<1ms TTL=128\r\nReply from 127.0.0.1: bytes=32 time<1ms TTL=128\r\nReply from 127.0.0.1: bytes=32 time<1ms TTL=128\r\nReply from 127.0.0.1: bytes=32 time<1ms TTL=128\r\nReply from 127.0.0.1: bytes=32 time<1ms TTL=128\r\nReply from 127.0.0.1: bytes=32 time<1ms TTL=128\r\nReply from 127.0.0.1: bytes=32 time<1ms TTL=128\r\nReply from 127.0.0.1: bytes=32 time<1ms TTL=128\r\nReply from 127.0.0.1: bytes=32 time<1ms TTL=128\r\nReply from 127.0.0.1: bytes=32 time<1ms TTL=128\r\nReply from 127.0.0.1: bytes=32 time<1ms TTL=128\r\nReply from 127.0.0.1: bytes=32 time<1ms TTL=128\r\nReply from 127.0.0.1: bytes=32 time<1ms TTL=128\r\n\r\nPing statistics for 127.0.0.1:\r\n    Packets: Sent = 200, Received = 200, Lost = 0 (0% loss),\r\nApproximate round trip times in milli-seconds:\r\n    Minimum = 0ms, Maximum = 0ms, Average = 0ms\r\n",
+          "err": "",
+          "startedAt": "2021-12-19 14:07:29.415919",
+          "finishedAt": "2021-12-19 14:10:50.223246",
+          "duration": 200.807,
+          "pid": 12572,
+          "status": "finished",
+          "args": "cmd.exe,/c,ping,-n,200,127.0.0.1"
+        },
+        {
+          "id": 1,
+          "command": "echo 1",
+          "code": 0,
+          "out": "1\r\n",
+          "err": "",
+          "startedAt": "2021-12-19 14:07:29.286888",
+          "finishedAt": "2021-12-19 14:07:29.387050",
+          "duration": 0.1,
+          "pid": 10324,
+          "status": "finished",
+          "args": "cmd.exe,/c,echo,1"
+        }
+      ],
+      "timestamp": "2021-12-19 16:18:14.873786",
+      "path": "/commands?",
+      "name": "Estuary-Agent",
+      "version": "4.2.4-SNAPSHOT",
+      "homePageUrl": "http://localhost:8082/",
+      "ip_port": "192.168.0.41:8082"
+    }
+  ],
+  "path": "/agents/commands?",
+  "timestamp": "2021-12-19 16:18:14.876801",
+  "name": "Estuary-Discovery",
+  "version": "4.2.4"
+}

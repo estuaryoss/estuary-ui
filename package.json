@@ -1,0 +1,54 @@
+{
+  "name": "Estuary-UI",
+  "version": "4.2.4",
+  "description": "Service that provides a UI interface to connect, control & collect information from the Estuary Stack.",
+  "productName": "Estuary UI",
+  "author": "Catalin Dinuta <constantin.dinuta@gmail.com>",
+  "private": true,
+  "scripts": {
+    "lint": "eslint --ext .js,.vue ./",
+    "test": "cypress run",
+    "cypress:run": "cypress run",
+    "cypress:open": "cypress open"
+  },
+  "dependencies": {
+    "@quasar/extras": "^1.11.2",
+    "axios": "^0.21.1",
+    "cordova-android": "^10.1.1",
+    "cordova-common": "^4.0.2",
+    "core-js": "^3.18.3",
+    "dotenv": "^10.0.0",
+    "lodash": "^4.17.21",
+    "quasar": "^2.3.4",
+    "vue-i18n": "^9.1.9",
+    "vuedraggable": "^4.1.0",
+    "vuex": "^4.0.2"
+  },
+  "devDependencies": {
+    "cypress": "^9.1.1",
+    "@cypress/vue": "^3.0.5",
+    "@testing-library/cypress": "^8.0.2",
+    "@babel/eslint-parser": "^7.15.8",
+    "@quasar/app": "^3.1.3",
+    "eslint": "^8.0.1",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-vue": "^7.19.1",
+    "eslint-webpack-plugin": "^3.0.1"
+  },
+  "browserslist": [
+    "last 10 Chrome versions",
+    "last 10 Firefox versions",
+    "last 4 Edge versions",
+    "last 7 Safari versions",
+    "last 8 Android versions",
+    "last 8 ChromeAndroid versions",
+    "last 8 FirefoxAndroid versions",
+    "last 10 iOS versions",
+    "last 5 Opera versions"
+  ],
+  "engines": {
+    "node": ">= 12.22.1",
+    "npm": ">= 6.13.4",
+    "yarn": ">= 1.21.1"
+  }
+}
