@@ -2,7 +2,6 @@
 FROM node:slim
 
 ENV APP_DIR /home/node/app
-ENV NODE_OPTIONS --openssl-legacy-provider #https://github.com/webpack/webpack/issues/14532
 
 WORKDIR $APP_DIR
 

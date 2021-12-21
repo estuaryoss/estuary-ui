@@ -8,7 +8,7 @@ describe('File Transfers', () => {
 
     cy.intercept('GET', '/about', {fixture: 'about.json'})
 
-    cy.visit('http://localhost:8090/file-transfers')
+    cy.visit('http://localhost:8080/file-transfers')
   })
 
   it('the page title can be discovered', () => {
