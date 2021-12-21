@@ -1,0 +1,32 @@
+language: node_js
+node_js:
+  - 16
+
+services:
+  - docker
+
+env:
+
+before_install:
+install:
+
+deploy:
+  - provider: script
+    script: bash docker_push_tag.sh
+    skip_cleanup: true
+    on:
+      tags: true
+
+  - provider: script
+    script: bash docker_push_master.sh
+    skip_cleanup: true
+    on:
+      branch: master
+
+before_script:
+  - docker login -u "$DOCKERHUB_USERNAME" -p "$DOCKERHUB_TOKEN"
+
+script:
+  - docker build . -t estuaryoss/ui:latest
+
+
