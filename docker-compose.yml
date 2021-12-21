@@ -7,9 +7,9 @@ services:
     #    working_dir: /home/node/app #already set
     environment:
       - NODE_ENV=development #production
-      - SERVICE_BACKEND_URL=http://localhost:4000 #the machine where the backend is deployed
-      - SERVICE_USERNAME=insertHereUsernameRef
-      - SERVICE_PASSWORD=insertHerePasswordRef
+      - SERVICE_BACKEND_URL=http://localhost:8080 #the machine where the Discovery backend is deployed
+      - SERVICE_USERNAME=admin
+      - SERVICE_PASSWORD=estuaryoss123! #change it !!!
     #    volumes:
     #      - ./:/home/node/app
     expose:

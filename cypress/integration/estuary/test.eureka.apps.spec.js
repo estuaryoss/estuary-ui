@@ -8,7 +8,7 @@ describe('Eureka Apps', () => {
 
     cy.intercept('GET', '/about', {fixture: 'about.json'})
 
-    cy.visit('http://localhost:8090/eureka-apps')
+    cy.visit('http://localhost:8080/eureka-apps')
   })
 
   it('the page title can be discovered', () => {
