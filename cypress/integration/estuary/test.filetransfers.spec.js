@@ -26,7 +26,7 @@ describe('File Transfers', () => {
   })
 
   it('when searching inside the table, it prints only one entry', () => {
-    cy.intercept('GET', '/agents/files', {fixture: 'eureka_apps.json'})
+    cy.intercept('GET', '/agents/files', {fixture: 'file_transfers.json'})
 
     cy.get('.table-search-input').type('download')
     cy.get(':nth-child(3) > .q-table__bottom-item').contains("1-1 of 1")

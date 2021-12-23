@@ -6,6 +6,7 @@ export default function () {
     rows: [],
     loading: false,
     columns: [
+      {name: 'Action', label: 'Action', field: 'Action', sortable: false, align: 'left'},
       {name: 'IpAddr', field: 'ipAddr', label: 'IpAddr', sortable: false},
       {name: 'Port', align: 'left', field: "port", label: 'Port', sortable: true},
       {name: 'SecurePort', align: 'left', field: "securePort", label: 'SecurePort', sortable: true},

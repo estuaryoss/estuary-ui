@@ -1,7 +1,7 @@
 <template>
   <q-page class="q-pa-sm">
 
-    <table-basic ref="results" :columns="this.$store.state.file_transfers.columns"
+    <table-basic :columns="this.$store.state.file_transfers.columns"
                  :rows="this.$store.state.file_transfers.rows"
                  :loading="loading"
                  @filter="getFilterFromChild"/>

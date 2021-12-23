@@ -6,6 +6,7 @@ export default function () {
     rows: [],
     loading: false,
     columns: [
+      {name: 'Action', label: 'Action', field: 'Action', sortable: false, align: 'left'},
       {name: 'Id', field: 'id', label: 'Id', sortable: false},
       {name: 'Type', align: 'left', field: "type", label: 'Type', sortable: true},
       {name: 'SourceFileName', align: 'left', field: "sourceFileName", label: 'SourceFileName', sortable: true},

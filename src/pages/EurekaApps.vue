@@ -1,7 +1,7 @@
 <template>
   <q-page class="q-pa-sm">
 
-    <table-basic ref="results" :columns="this.$store.state.eureka_apps.columns"
+    <table-basic :columns="this.$store.state.eureka_apps.columns"
                  :rows="this.$store.state.dashboard.eurekaApps"
                  :loading="loading"
                  @filter="getFilterFromChild"/>
