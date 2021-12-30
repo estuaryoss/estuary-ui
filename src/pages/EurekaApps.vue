@@ -2,7 +2,7 @@
   <q-page class="q-pa-sm">
 
     <table-basic :columns="this.$store.state.eureka_apps.columns"
-                 :rows="this.$store.state.dashboard.eurekaApps"
+                 :rows="this.$store.state.eureka_apps.rows.value"
                  :loading="loading"
                  @filter="getFilterFromChild"/>
   </q-page>
@@ -68,13 +68,13 @@ export default defineComponent({
       }
       activeEurekaApps.map(el => el.metadata = JSON.stringify(el.metadata));
       let activeEurekaAppsSorted = _.sortBy(activeEurekaApps, 'app');
-      this.$store.state.dashboard.eurekaApps = activeEurekaAppsSorted;
+      this.$store.state.eureka_apps.rows.value = activeEurekaAppsSorted;
     },
     getNextUpdate() {
       return this.countdownTimer / 1000
     },
     clearDataFromTheTable() {
-      this.$store.state.eureka_apps.rows = [];
+      this.$store.state.eureka_apps.rows.value = [];
     },
     showDialog() {
       this.dialog = true;

@@ -186,7 +186,7 @@ export default defineComponent({
         {
           title: "Eureka App (s)",
           icon: "fas fa-chart-bar",
-          value: this.$store.state.dashboard.eurekaApps.length,
+          value: this.$store.state.eureka_apps.rows.value.length,
           color1: "#3a9688",
           color2: "#3e51b5"
         },
@@ -208,19 +208,19 @@ export default defineComponent({
     },
     loadAppsByType(appName) {
       let apps = [];
-      for (let i = 0; i < this.$store.state.dashboard.eurekaApps.length; i++) {
-        if (this.$store.state.dashboard.eurekaApps[i].app.includes(appName)) {
-          apps.push(this.$store.state.dashboard.eurekaApps[i]);
+      for (let i = 0; i < this.$store.state.eureka_apps.rows.value.length; i++) {
+        if (this.$store.state.eureka_apps.rows.value[i].app.includes(appName)) {
+          apps.push(this.$store.state.eureka_apps.rows.value[i]);
         }
       }
 
       return apps;
     },
     async getEurekaApps() {
-      let discovery_list = process.env.SERVICE_BACKEND_URL.split(",")
+      let discoveryList = process.env.SERVICE_BACKEND_URL.split(",")
       let activeEurekaApps = [];
-      for (let i = 0; i < discovery_list.length; i++) {
-        let eurekaAppsList = await apiServiceGet(discovery_list[i] + "/eureka/apps").then((response) => {
+      for (let i = 0; i < discoveryList.length; i++) {
+        let eurekaAppsList = await apiServiceGet(discoveryList[i] + "/eureka/apps").then((response) => {
           if (undefined == response) {
             return {};
           }
@@ -238,7 +238,8 @@ export default defineComponent({
       }
       activeEurekaApps.map(el => el.metadata = JSON.stringify(el.metadata));
       let activeEurekaAppsSorted = _.sortBy(activeEurekaApps, 'app');
-      this.$store.state.dashboard.eurekaApps = activeEurekaAppsSorted;
+
+      this.$store.state.eureka_apps.rows.value = activeEurekaAppsSorted;
     },
     async setTotalFileTransfers() {
       let discovery_list = process.env.SERVICE_BACKEND_URL.split(",")

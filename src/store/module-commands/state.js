@@ -3,11 +3,11 @@ import {ref} from 'vue'
 export default function () {
   return {
     filter: ref(''),
-    rows: [],
+    rows: ref([]),
     loading: false,
     columns: [
       {name: 'Action', label: 'Action', field: 'Action', sortable: false, align: 'left'},
-      {name: 'Id', field: 'id', label: 'Id', sortable: false},
+      {name: 'Id', field: 'id', label: 'Id', sortable: true},
       {name: 'Command', align: 'left', field: "command", label: 'Command', sortable: true},
       {name: 'Status', align: 'left', field: "status", label: 'Status', sortable: true},
       {name: 'Code', align: 'left', field: "code", label: 'Code', sortable: true},

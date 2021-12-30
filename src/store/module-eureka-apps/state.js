@@ -3,8 +3,8 @@ import {ref} from 'vue'
 export default function () {
   return {
     filter: ref(''),
-    rows: [],
     loading: false,
+    rows: ref([]),
     columns: [
       {name: 'Action', label: 'Action', field: 'Action', sortable: false, align: 'left'},
       {name: 'IpAddr', field: 'ipAddr', label: 'IpAddr', sortable: false},

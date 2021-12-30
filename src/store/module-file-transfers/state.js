@@ -3,7 +3,7 @@ import {ref} from 'vue'
 export default function () {
   return {
     filter: ref(''),
-    rows: [],
+    rows: ref([]),
     loading: false,
     columns: [
       {name: 'Action', label: 'Action', field: 'Action', sortable: false, align: 'left'},
@@ -15,6 +15,9 @@ export default function () {
       {name: 'TargetFilePath', align: 'left', field: "targetFilePath", label: 'TargetFilePath', sortable: true},
       {name: 'TargetFolder', align: 'left', field: "targetFolder", label: 'TargetFolder', sortable: true},
       {name: 'FileSize', align: 'left', field: "fileSize", label: 'FileSize', sortable: true},
+      {name: 'HomePageUrl', align: 'left', field: "homePageUrl", label: 'HomePageUrl', sortable: true},
+      {name: 'IpPort', align: 'left', field: "ip_port", label: 'IpPort', sortable: true},
+      {name: 'Discovery', align: 'left', field: "discovery", label: 'Discovery', sortable: true},
     ]
   }
 }

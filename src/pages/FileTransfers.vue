@@ -2,7 +2,7 @@
   <q-page class="q-pa-sm">
 
     <table-basic :columns="this.$store.state.file_transfers.columns"
-                 :rows="this.$store.state.file_transfers.rows"
+                 :rows="this.$store.state.file_transfers.rows.value"
                  :loading="loading"
                  @filter="getFilterFromChild"/>
   </q-page>
@@ -46,23 +46,34 @@ export default defineComponent({
   },
   methods: {
     async getFileTransfers() {
-      let discovery_list = process.env.SERVICE_BACKEND_URL.split(",")
+      this.loading = true;
+      let discoveryList = process.env.SERVICE_BACKEND_URL.split(",")
       let fileTransfers = [];
-      for (let i = 0; i < discovery_list.length; i++) {
-        let agentResponses = await apiServiceGet(discovery_list[i] + "/agents/files").then((response) => {
+      for (let i = 0; i < discoveryList.length; i++) {
+        let agentResponses = await apiServiceGet(discoveryList[i] + "/agents/files").then((response) => {
           return response.data.description;
         });
-        fileTransfers = fileTransfers.concat(agentResponses[i].description)
+
+        agentResponses.forEach(agentResponse => {
+          agentResponse.description.forEach(fileTransfer => {
+            fileTransfer["homePageUrl"] = agentResponse.homePageUrl
+            fileTransfer["ip_port"] = agentResponse.ip_port
+            fileTransfer["discovery"] = discoveryList[i]
+
+            fileTransfers.push(fileTransfer)
+          })
+        });
       }
 
       let activeFileTransfersSorted = _.sortBy(fileTransfers, 'id');
-      this.$store.state.file_transfers.rows = activeFileTransfersSorted;
+      this.$store.state.file_transfers.rows.value = activeFileTransfersSorted;
+      this.loading = false;
     },
     getNextUpdate() {
       return this.countdownTimer / 1000
     },
     clearDataFromTheTable() {
-      this.$store.state.file_transfers.rows = [];
+      this.$store.state.file_transfers.rows.value = [];
     },
     showDialog() {
       this.dialog = true;
