@@ -1,4 +1,4 @@
-describe('Eureka Apps', () => {
+describe('Environment', () => {
   beforeEach(() => {
     cy.on('uncaught:exception', (err, runnable) => {
       // returning false here prevents Cypress from
@@ -6,9 +6,9 @@ describe('Eureka Apps', () => {
       return false
     })
 
-    cy.intercept('**/about', {fixture: 'about.json'})
+    cy.intercept('GET', '/about', {fixture: 'about.json'})
 
-    cy.visit('https://localhost:8443/eureka/apps')
+    cy.visit('https://localhost:8443/env')
   })
 
   it('the page title can be discovered', () => {
@@ -20,15 +20,15 @@ describe('Eureka Apps', () => {
   })
 
   it('when loading table, it prints 2 entries', () => {
-    cy.intercept('**/eureka/apps', {fixture: 'eureka_apps.json'})
+    cy.intercept('GET', '/agents/env', {fixture: 'environment.json'})
 
     cy.get(':nth-child(3) > .q-table__bottom-item').contains("1-2 of 2")
   })
 
   it('when searching inside the table, it prints only one entry', () => {
-    cy.intercept('**/eureka/apps', {fixture: 'eureka_apps.json'})
+    cy.intercept('GET', '/agents/env', {fixture: 'environment.json'})
 
-    cy.get('.table-search-input').type('discovery')
+    cy.get('.table-search-input').type('BAR1')
     cy.get(':nth-child(3) > .q-table__bottom-item').contains("1-1 of 1")
     cy.get('.table-search-input').clear()
     cy.get(':nth-child(3) > .q-table__bottom-item').contains("1-2 of 2")

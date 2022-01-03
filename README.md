@@ -19,16 +19,16 @@ Service that provides a UI interface to connect, control & collect information f
 
 ## Docker run
 
-Default token is 'None' for no HTTP auth
+Default credentials are in .env file
 
 ```shell script
-docker run -p 8080:8080 -e SERVICE_BACKEND_URL=http(s)://estuary_discovery_ip:estuary_discovery_port -e SERVICE_USERNAME=username -e SERVICE_PASSWORD=changeIt estuaryoss/ui:latest
+docker run -p 8443:8443 -e SERVICE_BACKEND_URL=http(s)://estuary_discovery_ip:estuary_discovery_port -e SERVICE_USERNAME=username -e SERVICE_PASSWORD=changeIt estuaryoss/ui:latest
 ```
 
 E.g.:
 
 ```shell script
-docker run -p 8080:8080 -e SERVICE_BACKEND_URL=http://192.168.100.8:8080 -e SERVICE_USERNAME=username -e SERVICE_PASSWORD=changeIt estuaryoss/ui:latest
+docker run -p 8443:8443 -e SERVICE_BACKEND_URL=http://192.168.100.8:8080 -e SERVICE_USERNAME=username -e SERVICE_PASSWORD=changeIt estuaryoss/ui:latest
 ```
 
 ## Docker run - aggregating multiple discovery(ies)
@@ -36,7 +36,7 @@ docker run -p 8080:8080 -e SERVICE_BACKEND_URL=http://192.168.100.8:8080 -e SERV
 UI supports aggregating multiples discovery services. List the discovery services separated by a comma.
 
 ```shell script
-docker run -p 8080:8080 -e SERVICE_BACKEND_URL=http://192.168.100.8:8080,http://192.168.100.9:8080 -e SERVICE_USERNAME=username -e SERVICE_PASSWORD=changeIt estuaryoss/ui:latest
+docker run -p 8443:8443 -e SERVICE_BACKEND_URL=http://192.168.100.8:8080,http://192.168.100.9:8080 -e SERVICE_USERNAME=username -e SERVICE_PASSWORD=changeIt estuaryoss/ui:latest
 ```
 
 ## Estuary stack

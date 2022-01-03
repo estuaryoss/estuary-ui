@@ -8,7 +8,7 @@ describe('Commands', () => {
 
     cy.intercept('GET', '/about', {fixture: 'about.json'})
 
-    cy.visit('http://localhost:8080/commands')
+    cy.visit('https://localhost:8443/commands')
   })
 
   it('the page title can be discovered', () => {

@@ -1,6 +1,11 @@
 <template>
   <q-page class="q-pa-sm">
-
+    <q-bar>
+      <q-btn no-caps type="submit" color="primary" label="Get File Transfers" @click="getFileTransfers">
+        <q-tooltip class="bg-accent">Refresh manually the File Transfers across all Agents
+        </q-tooltip>
+      </q-btn>
+    </q-bar>
     <table-basic :columns="this.$store.state.file_transfers.columns"
                  :rows="this.$store.state.file_transfers.rows.value"
                  :loading="loading"
@@ -47,6 +52,7 @@ export default defineComponent({
   methods: {
     async getFileTransfers() {
       this.loading = true;
+
       let discoveryList = process.env.SERVICE_BACKEND_URL.split(",")
       let fileTransfers = [];
       for (let i = 0; i < discoveryList.length; i++) {
@@ -67,6 +73,7 @@ export default defineComponent({
 
       let activeFileTransfersSorted = _.sortBy(fileTransfers, 'id');
       this.$store.state.file_transfers.rows.value = activeFileTransfersSorted;
+
       this.loading = false;
     },
     getNextUpdate() {

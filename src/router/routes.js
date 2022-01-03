@@ -5,8 +5,9 @@ const routes = [
     children: [
       {path: '/', component: () => import('pages/Dashboard.vue')},
       {path: '/commands', component: () => import('pages/Commands.vue')},
-      {path: '/file-transfers', component: () => import('pages/FileTransfers.vue')},
-      {path: '/eureka-apps', component: () => import('pages/EurekaApps.vue')},
+      {path: '/file/transfers', component: () => import('pages/FileTransfers.vue')},
+      {path: '/eureka/apps', component: () => import('pages/EurekaApps.vue')},
+      {path: '/env', component: () => import('pages/Environment.vue')},
       {path: '/contacts', component: () => import('pages/Contact.vue')}
     ]
   },

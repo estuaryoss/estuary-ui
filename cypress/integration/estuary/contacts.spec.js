@@ -2,7 +2,7 @@ describe('Contacts Page', () => {
   beforeEach(() => {
     cy.intercept('GET', '/about', {fixture: 'about.json'})
 
-    cy.visit('http://localhost:8080/contacts')
+    cy.visit('https://localhost:8443/contacts')
   })
 
   it('the page title can be discovered', () => {
