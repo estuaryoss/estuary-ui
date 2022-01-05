@@ -15,7 +15,7 @@
       </q-btn>
     </q-bar>
 
-    <q-dialog v-model="showCommandsDialog">
+    <q-dialog v-model="showDialog">
       <q-card style="width: 700px; max-width: 80vw;">
 
         <q-card-section>
@@ -50,6 +50,14 @@
             ></q-input>
           </div>
 
+          <div>
+            <q-input
+              v-model="commandsSendEndpoint"
+              filled
+              label="Commands Endpoint"
+            ></q-input>
+          </div>
+
           <q-card-actions align="right">
             <q-btn flat label="Select All Agent(s)" color="secondary" @click="selectionAll"></q-btn>
             <q-btn flat label="Clear Agent(s)" color="secondary" @click="clearSelection"></q-btn>
@@ -58,6 +66,7 @@
           <div>
             <q-btn label="Submit" type="submit" color="primary"></q-btn>
             <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm"></q-btn>
+            <q-btn v-close-popup color="secondary" flat label="Close"></q-btn>
           </div>
         </q-form>
       </q-card>
@@ -140,15 +149,15 @@ export default defineComponent({
       refreshTimer: 30 * 1000,
       countdownTimer: 0,
       toggleButton: 'off',
-      dialog: false,
       maximizedToggle: false,
       alert: false,
-      showCommandsDialog: false,
+      showDialog: false,
       apiResponse: null,
       loading: false,
       selectModelMultiple: ref([]),
       selectOptions: ref([]),
-      commandsSeparatedByNewLineCharacter: ''
+      commandsSeparatedByNewLineCharacter: '',
+      commandsSendEndpoint: "/commands"
     }
   },
   methods: {
@@ -160,7 +169,7 @@ export default defineComponent({
       return true
     },
     onSubmit() {
-      this.showCommandsDialog = false
+      this.showDialog = false
       this.sendCommands()
     },
     onReset() {
@@ -179,17 +188,19 @@ export default defineComponent({
       this.selectModelMultiple = ref([])
     },
     async sendCommands() {
-      let discovery = this.getAppsByName("discovery")[0]
+      let discoveryList = process.env.SERVICE_BACKEND_URL.split(",")
       let headers = {
         "Content-Type": "text/plain",
         "HomePageUrl": this.selectModelMultiple.join(",")
       }
       let body = this.commandsSeparatedByNewLineCharacter;
-      await apiServicePostWithTimeout(discovery.homePageUrl + "/agents/commands", body, headers).then((response) => {
-        return response.data.description;
-      }).catch(function (error) {
-        //timeout
-      });
+      for (const discovery of discoveryList) {
+        await apiServicePostWithTimeout(discovery + "/agents" + this.commandsSendEndpoint, body, headers).then((response) => {
+          return response.data.description;
+        }).catch(function (error) {
+          //timeout
+        });
+      }
       await this.getCommands()
     },
     async getEurekaApps() {
@@ -230,7 +241,7 @@ export default defineComponent({
       return appsListByName
     },
     async prepareAndShowDialog() {
-      this.showCommandsDialog = true
+      this.showDialog = true
 
       let appsList = this.getAppsByName("agent")
       appsList.forEach(app => {
@@ -243,7 +254,7 @@ export default defineComponent({
       let discoveryList = process.env.SERVICE_BACKEND_URL.split(",")
 
       for (const discovery of discoveryList) {
-        await apiServiceDelete(discovery.homePageUrl + "/agents/commands")
+        await apiServiceDelete(discovery + "/agents/commands")
       }
 
       await this.getCommands()
@@ -285,9 +296,6 @@ export default defineComponent({
     },
     clearDataFromTheTable() {
       this.$store.state.commands.rows.value = [];
-    },
-    showDialog() {
-      this.dialog = true;
     },
     getFilterFromChild(filter) {
       this.$store.state.commands.filter = filter;

@@ -1,11 +1,11 @@
 ## Estuary UI
 
-Service that provides a UI interface to connect, control & collect information from the Estuary Stack:
+Service that provides a UI interface to connect, control & collect information from across the Estuary Stack:
 
-- registered Eureka Apps
+- view registered Eureka Apps
 - active & finished commands running on the Agents
-- file transfers on the Agents
-- run commands across the Stack
+- view & transfer files on the Agents
+- set & view env vars
 
 ![image](https://user-images.githubusercontent.com/43060213/146963197-2fa89b91-ba1e-44c8-a36c-00a2015a831e.png)
 

@@ -15,7 +15,7 @@
       </q-btn>
     </q-bar>
 
-    <q-dialog v-model="showEnvDialog">
+    <q-dialog v-model="showDialog">
       <q-card style="width: 700px; max-width: 80vw;">
 
         <q-card-section>
@@ -58,6 +58,7 @@
           <div>
             <q-btn label="Submit" type="submit" color="primary"></q-btn>
             <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm"></q-btn>
+            <q-btn v-close-popup color="secondary" flat label="Close"></q-btn>
           </div>
         </q-form>
       </q-card>
@@ -136,10 +137,9 @@ export default defineComponent({
       refreshTimer: 30 * 1000,
       countdownTimer: 0,
       toggleButton: 'off',
-      dialog: false,
       maximizedToggle: false,
       alert: false,
-      showEnvDialog: false,
+      showDialog: false,
       apiResponse: null,
       loading: false,
       selectModelMultiple: ref([]),
@@ -156,7 +156,7 @@ export default defineComponent({
       return true
     },
     onSubmit() {
-      this.showEnvDialog = false
+      this.showDialog = false
       this.sendEnvVars()
     },
     onReset() {
@@ -175,17 +175,19 @@ export default defineComponent({
       this.selectModelMultiple = ref([])
     },
     async sendEnvVars() {
-      let discovery = this.getAppsByName("discovery")[0]
+      let discoveryList = process.env.SERVICE_BACKEND_URL.split(",")
       let headers = {
         "Content-Type": "text/plain",
         "HomePageUrl": this.selectModelMultiple.join(",")
       }
       let body = this.envVarsAsJson;
-      await apiServicePost(discovery.homePageUrl + "/agents/env", body, headers).then((response) => {
-        return response.data.description;
-      }).catch(function (error) {
-        return error.response.data.description
-      });
+      for (const discovery of discoveryList) {
+        await apiServicePost(discovery + "/agents/env", body, headers).then((response) => {
+          return response.data.description;
+        }).catch(function (error) {
+          return error.response.data.description
+        });
+      }
 
       await this.getEnv()
     },
@@ -227,7 +229,7 @@ export default defineComponent({
       return appsListByName
     },
     async prepareAndShowDialog() {
-      this.showEnvDialog = true
+      this.showDialog = true
 
       let appsList = this.getAppsByName("agent")
       appsList.forEach(app => {
@@ -272,9 +274,6 @@ export default defineComponent({
     },
     clearDataFromTheTable() {
       this.$store.state.env.rows.value = [];
-    },
-    showDialog() {
-      this.dialog = true;
     },
     getFilterFromChild(filter) {
       this.$store.state.env.filter = filter;
