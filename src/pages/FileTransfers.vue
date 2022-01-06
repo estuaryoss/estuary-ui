@@ -45,7 +45,7 @@
             </template>
           </q-file>
 
-          <q-input v-model="folderPath" filled hint="The folder path to where the files will be stored"
+          <q-input v-model="folderPathUpload" filled hint="The folder path to where the files will be stored"
                    label="Folder path"
           >
             <q-tooltip class="bg-accent">Not required. The files will be stored in the default folder location on the
@@ -67,7 +67,7 @@
       </q-card>
     </q-dialog>
 
-    <q-dialog v-model="showDialogDownloads">
+    <q-dialog v-model="showDialogFileDownloads">
       <q-card style="width: 1400px; max-width: 80vw;">
 
         <q-card-section>
@@ -98,9 +98,59 @@
                    hint="The file path on the disk"
                    label="File path"
           >
-            <q-tooltip class="bg-accent">Required. The file path is required to know which file/folder to download on
+            <q-tooltip class="bg-accent">Required. The file path is required to know which file to download on
               each
               Agent
+            </q-tooltip>
+          </q-input>
+
+          <q-card-actions align="right">
+            <q-btn color="secondary" flat label="Select All Agent(s)" @click="selectionAll"></q-btn>
+            <q-btn color="secondary" flat label="Clear Agent(s)" @click="clearSelection"></q-btn>
+          </q-card-actions>
+
+          <div>
+            <q-btn color="primary" label="Submit" type="submit"></q-btn>
+            <q-btn class="q-ml-sm" color="primary" flat label="Reset" type="reset"></q-btn>
+            <q-btn v-close-popup color="secondary" flat label="Close"></q-btn>
+          </div>
+        </q-form>
+      </q-card>
+    </q-dialog>
+
+    <q-dialog v-model="showDialogFolderDownloads">
+      <q-card style="width: 1400px; max-width: 80vw;">
+
+        <q-card-section>
+          <div class="text-h6">Download folder(s)</div>
+        </q-card-section>
+
+        <q-form
+          class="q-gutter-md"
+          @reset="onReset"
+          @submit="onSubmitFolderDownloads"
+        >
+          <div>
+            <q-select
+              v-model="selectModelMultiple"
+              :options="selectOptions"
+              :rules="[selectedAgentsRule]"
+              filled
+              label="Selected Agent(s)"
+              multiple
+              stack-label
+              use-chips
+            ></q-select>
+          </div>
+
+          <q-input v-model="folderPathDownload"
+                   :rules="[val => !!val || 'Insert the folder path']"
+                   filled
+                   hint="The folder path on the disk"
+                   label="Folder path"
+          >
+            <q-tooltip class="bg-accent">Required. The folder path is required to know which folder to download on
+              each Agent
             </q-tooltip>
           </q-input>
 
@@ -128,9 +178,14 @@
         <q-tooltip class="bg-accent">Upload a file to a targeted Agent or on all Agents
         </q-tooltip>
       </q-btn>
-
-      <q-btn color="primary" label="Download file(s)" no-caps type="submit" @click="prepareAndShowDialogForDownloads">
+      <q-btn color="primary" label="Download file(s)" no-caps type="submit"
+             @click="prepareAndShowDialogForFileDownloads">
         <q-tooltip class="bg-accent">Download a file from a targeted Agent or from all Agents
+        </q-tooltip>
+      </q-btn>
+      <q-btn color="primary" label="Download folder(s)" no-caps type="submit"
+             @click="prepareAndShowDialogForFolderDownloads">
+        <q-tooltip class="bg-accent">Download a folder from a targeted Agent or from all Agents
         </q-tooltip>
       </q-btn>
 
@@ -204,10 +259,12 @@ export default defineComponent({
       loading: false,
       selectModelMultiple: ref([]),
       selectOptions: ref([]),
-      folderPath: '',
+      folderPathDownload: '',
+      folderPathUpload: '',
       filePath: '',
       showDialog: false,
-      showDialogDownloads: false,
+      showDialogFileDownloads: false,
+      showDialogFolderDownloads: false,
       fileModel: [],
     }
   },
@@ -229,8 +286,18 @@ export default defineComponent({
         }
       })
     },
-    async prepareAndShowDialogForDownloads() {
-      this.showDialogDownloads = true
+    async prepareAndShowDialogForFileDownloads() {
+      this.showDialogFileDownloads = true
+
+      let appsList = this.getAppsByName("agent")
+      appsList.forEach(app => {
+        if (!_.includes(this.selectOptions, app.homePageUrl)) {
+          this.selectOptions.push(app.homePageUrl)
+        }
+      })
+    },
+    async prepareAndShowDialogForFolderDownloads() {
+      this.showDialogFolderDownloads = true
 
       let appsList = this.getAppsByName("agent")
       appsList.forEach(app => {
@@ -281,7 +348,7 @@ export default defineComponent({
       this.uploadFiles()
     },
     onSubmitFileDownloads() {
-      this.showDialogDownloads = false
+      this.showDialogFileDownloads = false
       let headers = {
         "HomePageUrl": this.selectModelMultiple.join(","),
         "File-Path": this.filePath
@@ -289,10 +356,10 @@ export default defineComponent({
       this.downloadFiles("/agents/file/download", headers)
     },
     onSubmitFolderDownloads() {
-      this.showDialogDownloads = false
+      this.showDialogFolderDownloads = false
       let headers = {
         "HomePageUrl": this.selectModelMultiple.join(","),
-        "Folder-Path": this.filePath
+        "Folder-Path": this.folderPathDownload
       }
       this.downloadFiles("/agents/folder", headers)
     },
