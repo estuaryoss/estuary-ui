@@ -54,7 +54,7 @@
             <q-item-label>Commands</q-item-label>
           </q-item-section>
         </q-item>
-        <q-item to="/file-transfers" active-class="q-item-no-link-highlighting">
+        <q-item to="/file/transfers" active-class="q-item-no-link-highlighting">
           <q-item-section avatar>
             <q-icon name="table_chart"/>
           </q-item-section>
@@ -62,7 +62,15 @@
             <q-item-label>File Transfers</q-item-label>
           </q-item-section>
         </q-item>
-        <q-item active-class="q-item-no-link-highlighting" to="/eureka-apps">
+        <q-item active-class="q-item-no-link-highlighting" to="/env">
+          <q-item-section avatar>
+            <q-icon name="table_chart"/>
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Environment</q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-item active-class="q-item-no-link-highlighting" to="/eureka/apps">
           <q-item-section avatar>
             <q-icon name="table_chart"/>
           </q-item-section>

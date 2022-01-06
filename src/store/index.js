@@ -5,6 +5,7 @@ import dashboard from './module-dashboard'
 import commands from './module-commands'
 import eureka_apps from './module-eureka-apps'
 import file_transfers from './module-file-transfers'
+import env from './module-environment'
 
 /*
  * If not building with SSR mode, you can
@@ -18,6 +19,7 @@ import file_transfers from './module-file-transfers'
 export default store(function (/* { ssrContext } */) {
   const Store = createStore({
     modules: {
+      env,
       dashboard,
       commands,
       eureka_apps,

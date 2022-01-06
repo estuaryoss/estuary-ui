@@ -1,8 +1,14 @@
 <template>
   <q-page class="q-pa-sm">
+    <q-bar>
+      <q-btn no-caps type="submit" color="primary" label="Get EurekaApps" @click="getEurekaApps">
+        <q-tooltip class="bg-accent">Refresh manually the Eureka Apps
+        </q-tooltip>
+      </q-btn>
+    </q-bar>
 
-    <table-basic ref="results" :columns="this.$store.state.eureka_apps.columns"
-                 :rows="this.$store.state.dashboard.eurekaApps"
+    <table-basic :columns="this.$store.state.eureka_apps.columns"
+                 :rows="this.$store.state.eureka_apps.rows.value"
                  :loading="loading"
                  @filter="getFilterFromChild"/>
   </q-page>
@@ -47,6 +53,8 @@ export default defineComponent({
   },
   methods: {
     async getEurekaApps() {
+      this.loading = true;
+
       let discovery_list = process.env.SERVICE_BACKEND_URL.split(",")
       let activeEurekaApps = [];
       for (let i = 0; i < discovery_list.length; i++) {
@@ -68,13 +76,15 @@ export default defineComponent({
       }
       activeEurekaApps.map(el => el.metadata = JSON.stringify(el.metadata));
       let activeEurekaAppsSorted = _.sortBy(activeEurekaApps, 'app');
-      this.$store.state.dashboard.eurekaApps = activeEurekaAppsSorted;
+      this.$store.state.eureka_apps.rows.value = activeEurekaAppsSorted;
+
+      this.loading = false
     },
     getNextUpdate() {
       return this.countdownTimer / 1000
     },
     clearDataFromTheTable() {
-      this.$store.state.eureka_apps.rows = [];
+      this.$store.state.eureka_apps.rows.value = [];
     },
     showDialog() {
       this.dialog = true;

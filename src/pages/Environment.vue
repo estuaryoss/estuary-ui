@@ -1,16 +1,16 @@
 <template>
   <q-page class="q-pa-sm">
     <q-bar>
-      <q-btn no-caps type="submit" color="primary" label="Get All Commands" @click="getCommands">
-        <q-tooltip class="bg-accent">Refresh manually the commands from all Agents
+      <q-btn no-caps type="submit" color="primary" label="Get All Envs" @click="getEnv">
+        <q-tooltip class="bg-accent">Refresh manually the environment from all Agents
         </q-tooltip>
       </q-btn>
-      <q-btn no-caps type="submit" color="primary" label="Stop All Commands" @click="stopAllCommands">
-        <q-tooltip class="bg-accent">Stop all commands on all Agents
+      <q-btn no-caps type="submit" color="primary" label="Delete Virtual Env" @click="deleteVirtualEnv">
+        <q-tooltip class="bg-accent">Delete virtual environment from all Agents
         </q-tooltip>
       </q-btn>
-      <q-btn no-caps type="submit" color="primary" label="Send Commands" @click="prepareAndShowDialog">
-        <q-tooltip class="bg-accent">Send commands on a targeted Agent or on all Agents
+      <q-btn no-caps type="submit" color="primary" label="Set env vars" @click="prepareAndShowDialog">
+        <q-tooltip class="bg-accent">Set virtual environment vars on a targeted Agent or on all Agents
         </q-tooltip>
       </q-btn>
     </q-bar>
@@ -19,7 +19,7 @@
       <q-card style="width: 700px; max-width: 80vw;">
 
         <q-card-section>
-          <div class="text-h6">Send commands</div>
+          <div class="text-h6">Set virtual env vars</div>
         </q-card-section>
 
         <q-form
@@ -42,19 +42,11 @@
 
           <div>
             <q-input
-              v-model="commandsSeparatedByNewLineCharacter"
+              v-model="envVarsAsJson"
               filled
               type="textarea"
-              label="Commands"
-              :rules="[val => !!val || 'Commands are required']"
-            ></q-input>
-          </div>
-
-          <div>
-            <q-input
-              v-model="commandsSendEndpoint"
-              filled
-              label="Commands Endpoint"
+              label="Env vars"
+              :rules="[val => !!val || 'Env vars are required']"
             ></q-input>
           </div>
 
@@ -88,8 +80,8 @@
       </q-card>
     </q-dialog>
 
-    <table-basic :columns="this.$store.state.commands.columns"
-                 :rows="this.$store.state.commands.rows.value"
+    <table-basic :columns="this.$store.state.env.columns"
+                 :rows="this.$store.state.env.rows.value"
                  :loading="loading"
                  @filter="getFilterFromChild"
                  @apiResponseAgent="getAgentApiResponseFromChild"/>
@@ -111,7 +103,7 @@ async function apiServiceGet(url) {
   });
 }
 
-async function apiServicePostWithTimeout(url, body, headers) {
+async function apiServicePost(url, body, headers) {
   return axios({
     method: 'POST',
     url: url,
@@ -122,10 +114,6 @@ async function apiServicePostWithTimeout(url, body, headers) {
       username: process.env.SERVICE_USERNAME,
       password: process.env.SERVICE_PASSWORD
     }
-  }).then((response) => {
-    return response.data.description;
-  }).catch(function (error) {
-    return error.response.data.description
   });
 }
 
@@ -139,9 +127,9 @@ async function apiServiceDelete(url) {
 }
 
 export default defineComponent({
-  name: 'Commands',
+  name: 'Environment',
   components: {
-    TableBasic: defineAsyncComponent(() => import('components/tables/TableBasicCommands'))
+    TableBasic: defineAsyncComponent(() => import('components/tables/TableBasic'))
   },
   data() {
     return {
@@ -156,8 +144,7 @@ export default defineComponent({
       loading: false,
       selectModelMultiple: ref([]),
       selectOptions: ref([]),
-      commandsSeparatedByNewLineCharacter: '',
-      commandsSendEndpoint: "/commands"
+      envVarsAsJson: '{"FOO": "BAR"}'
     }
   },
   methods: {
@@ -170,11 +157,11 @@ export default defineComponent({
     },
     onSubmit() {
       this.showDialog = false
-      this.sendCommands()
+      this.sendEnvVars()
     },
     onReset() {
       this.selectModelMultiple = []
-      this.commandsSeparatedByNewLineCharacter = ''
+      this.envVarsAsJson = '{"FOO": "BAR"}'
     },
     selectionAll() {
       let appsList = this.getAppsByName("agent")
@@ -187,21 +174,22 @@ export default defineComponent({
     clearSelection() {
       this.selectModelMultiple = ref([])
     },
-    async sendCommands() {
+    async sendEnvVars() {
       let discoveryList = process.env.SERVICE_BACKEND_URL.split(",")
       let headers = {
         "Content-Type": "text/plain",
         "HomePageUrl": this.selectModelMultiple.join(",")
       }
-      let body = this.commandsSeparatedByNewLineCharacter;
+      let body = this.envVarsAsJson;
       for (const discovery of discoveryList) {
-        await apiServicePostWithTimeout(discovery + "/agents" + this.commandsSendEndpoint, body, headers).then((response) => {
+        await apiServicePost(discovery + "/agents/env", body, headers).then((response) => {
           return response.data.description;
         }).catch(function (error) {
-          //timeout
+          return error.response.data.description
         });
       }
-      await this.getCommands()
+
+      await this.getEnv()
     },
     async getEurekaApps() {
       let discoveryList = process.env.SERVICE_BACKEND_URL.split(",")
@@ -250,59 +238,50 @@ export default defineComponent({
         }
       })
     },
-    async stopAllCommands() {
-      let discoveryList = process.env.SERVICE_BACKEND_URL.split(",")
-
-      for (const discovery of discoveryList) {
-        await apiServiceDelete(discovery + "/agents/commands")
-      }
-
-      await this.getCommands()
-    },
-    getDataObjectByKey(keyName) {
-      let data = _(this.$store.state.commands.rows.value)
-        .countBy(keyName)
-        .map((value, name) => ({name, value}))
-        .value();
-
-      return data;
-    },
-    async getCommands() {
+    async getEnv() {
       this.loading = true;
       let discoveryList = process.env.SERVICE_BACKEND_URL.split(",")
-      let commands = [];
+      let envs = [];
       for (let i = 0; i < discoveryList.length; i++) {
-        let agentResponses = await apiServiceGet(discoveryList[i] + "/agents/commands").then((response) => {
+        let agentResponses = await apiServiceGet(discoveryList[i] + "/agents/env").then((response) => {
           return response.data.description;
         });
         agentResponses.forEach(agentResponse => {
-          agentResponse.description.forEach(command => {
-            command["homePageUrl"] = agentResponse.homePageUrl
-            command["ip_port"] = agentResponse.ip_port
-            command["discovery"] = discoveryList[i]
-
-            commands.push(command)
-          })
+          let env = {}
+          env["homePageUrl"] = agentResponse.homePageUrl
+          env["ip_port"] = agentResponse.ip_port
+          env["discovery"] = discoveryList[i]
+          env["env"] = JSON.stringify(agentResponse.description)
+          envs.push(env)
         });
       }
-
-      let commandsSorted = _.sortBy(commands, 'id');
-      this.$store.state.commands.rows.value = _.orderBy(commandsSorted, ['id'], ['desc']);
-
+      this.$store.state.env.rows.value = envs
+      this.loading = false;
+    },
+    async deleteVirtualEnv() {
+      this.loading = true;
+      let discoveryList = process.env.SERVICE_BACKEND_URL.split(",")
+      for (let i = 0; i < discoveryList.length; i++) {
+        let agentResponses = await apiServiceDelete(discoveryList[i] + "/agents/env").then((response) => {
+          return response.data.description;
+        });
+      }
+      await this.getEnv()
       this.loading = false;
     },
     getNextUpdate() {
       return this.countdownTimer / 1000
     },
     clearDataFromTheTable() {
-      this.$store.state.commands.rows.value = [];
+      this.$store.state.env.rows.value = [];
     },
     getFilterFromChild(filter) {
-      this.$store.state.commands.filter = filter;
+      this.$store.state.env.filter = filter;
     },
     getAgentApiResponseFromChild(apiResponseAgent) {
       this.apiResponse = apiResponseAgent.description[0];
-      this.getCommands();
+
+      this.getEnv();
       this.alert = true;
     },
     startTimer() {
@@ -310,7 +289,7 @@ export default defineComponent({
         this.countdownTimer = (this.countdownTimer / 1000 - 1) * 1000;
         if (this.countdownTimer / 1000 < 0) {
           this.countdownTimer = this.refreshTimer
-          this.getCommands()
+          this.getEnv()
         }
       }, 1000)
     }
@@ -320,7 +299,7 @@ export default defineComponent({
   },
   mounted() {
     this.countdownTimer = this.refreshTimer
-    this.getCommands()
+    this.getEnv()
     this.startTimer()
     this.$nextTick(() => {
     });

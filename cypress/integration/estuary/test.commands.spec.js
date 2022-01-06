@@ -8,7 +8,7 @@ describe('Commands', () => {
 
     cy.intercept('GET', '/about', {fixture: 'about.json'})
 
-    cy.visit('http://localhost:8080/commands')
+    cy.visit('https://localhost:8443/commands')
   })
 
   it('the page title can be discovered', () => {
@@ -26,7 +26,7 @@ describe('Commands', () => {
   })
 
   it('when searching inside the table, it prints only one entry', () => {
-    cy.intercept('GET', '/agents/commands', {fixture: 'eureka_apps.json'})
+    cy.intercept('GET', '/agents/commands', {fixture: 'commands.json'})
 
     cy.get('.table-search-input').type('echo 1')
     cy.get(':nth-child(3) > .q-table__bottom-item').contains("1-1 of 1")
