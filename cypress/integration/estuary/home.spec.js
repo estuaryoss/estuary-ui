@@ -8,7 +8,7 @@ describe('Home Page', () => {
 
     cy.intercept('GET', '/about', {fixture: 'about.json'})
 
-    cy.visit('https://localhost:8443')
+    cy.visit(Cypress.env('SERVICE_UI_URL'))
   })
 
   it('the page title can be discovered', () => {

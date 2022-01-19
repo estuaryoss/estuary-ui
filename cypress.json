@@ -1,3 +1,6 @@
 {
-  "projectId": "estuary-ui"
+  "projectId": "128076ed-9868-4e98-9cef-98dd8b705d75",
+  "env": {
+    "SERVICE_UI_URL": "https://localhost:8443"
+  }
 }

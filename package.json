@@ -1,6 +1,6 @@
 {
   "name": "Estuary-UI",
-  "version": "4.2.4",
+  "version": "4.2.5",
   "description": "Service that provides a UI interface to connect, control & collect information from the Estuary Stack.",
   "productName": "Estuary UI",
   "author": "Catalin Dinuta <constantin.dinuta@gmail.com>",
@@ -19,14 +19,14 @@
     "core-js": "^3.18.3",
     "dotenv": "^10.0.0",
     "lodash": "^4.17.21",
-    "quasar": "^2.4.4",
+    "quasar": "^2.4.11",
     "vue-i18n": "^9.1.9",
     "vuedraggable": "^4.1.0",
     "vuex": "^4.0.2",
     "vue": "^3.0.0"
   },
   "devDependencies": {
-    "cypress": "^9.2.0",
+    "cypress": "^9.3.1",
     "@cypress/vue": "^3.0.5",
     "@testing-library/cypress": "^8.0.2",
     "@babel/eslint-parser": "^7.15.8",

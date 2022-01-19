@@ -1,0 +1,36 @@
+version: "3.3"
+
+services:
+  discovery:
+    image: estuaryoss/discovery:4.2.4
+    command: bash -c "sleep 20 && /root/app/main-linux"
+    environment:
+      #      FLUENTD_IP_PORT: 192.168.100.12:24224
+      EUREKA_SERVER: http://192.168.0.41:8080/eureka/v2 #your eureka server
+      APP_IP: 192.168.0.41 #your app details: the IP/hostname. needed for service discovery and spread of tests from the test client
+      PORT: 443 #your app details:  port. needed for service discovery and spread of tests from the test client
+      HTTP_AUTH_USER: "admin"
+      HTTP_AUTH_PASSWORD: "estuaryoss123!"
+      HTTPS_ENABLE: "true"
+    ports:
+      - "443:443"
+
+  agent:
+    image: estuaryoss/agent-java:4.2.4
+    entrypoint: bash -c "sleep 20 && java -jar -Deureka.client.enabled=true agent-exec.jar"
+    environment:
+      EUREKA_SERVER: http://192.168.0.41:8080/eureka/v2 #your eureka server
+      APP_IP: 192.168.0.41 #your app details: where it is and on which port. needed for service discovery and spread of tests from the test client
+      PORT: 8444
+      HTTP_AUTH_USER: "admin" #change it with env vars
+      HTTP_AUTH_PASSWORD: "estuaryoss123!" #change it with env vars
+      HTTPS_ENABLE: "true"
+      SERVICE_PROTOCOL: "https"
+    ports:
+      - "8444:8444"
+
+  eureka-server:
+    image: estuaryoss/netflix-eureka:1.10.11
+    hostname: eureka-server
+    ports:
+      - "8080:8080"
