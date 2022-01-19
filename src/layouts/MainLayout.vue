@@ -70,7 +70,7 @@
             <q-item-label>Environment</q-item-label>
           </q-item-section>
         </q-item>
-        <q-item active-class="q-item-no-link-highlighting" to="/eureka/apps">
+        <q-item active-class="q-item-no-link-highlighting" to="/eureka/applications">
           <q-item-section avatar>
             <q-icon name="table_chart"/>
           </q-item-section>
