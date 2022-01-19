@@ -1,5 +1,8 @@
-<template>
+.custom-text-pre {
+white-space: pre;
+}
 
+<template>
   <q-dialog v-model="alert">
     <q-card>
       <q-card-section>
@@ -7,7 +10,8 @@
       </q-card-section>
 
       <q-card-section class="q-pt-none">
-        {{ rowDetails }}
+        <div v-if="isRawContent" class="text-pre"> {{ rowDetails }}</div>
+        <div v-else>{{ rowDetails }}</div>
       </q-card-section>
 
       <q-card-actions align="right">
@@ -56,6 +60,10 @@
                 <q-btn v-if="isCommandRunning(props.row)" size="xs" icon="navigation"
                        @click="stopCommandByPid(props.row)">
                   <q-tooltip class="bg-accent">Stop Command By Pid</q-tooltip>
+                </q-btn>
+                <q-btn v-if="isCommandFinished(props.row)" icon="navigation" size="xs"
+                       @click="getStdOutAndErr(props.row)">
+                  <q-tooltip class="bg-accent">View command output</q-tooltip>
                 </q-btn>
               </q-td>
             </template>
@@ -114,6 +122,7 @@ export default defineComponent({
   data() {
     return {
       alert: false,
+      isRawContent: false,
       rowDetails: '',
       apiResponse: undefined
     }
@@ -123,11 +132,15 @@ export default defineComponent({
       this.$emit('apiResponseAgent', this.apiResponse)
     },
     goToViewRow(row) {
-      this.alert = true;
-      this.rowDetails = row;
+      this.alert = true
+      this.isRawContent = false
+      this.rowDetails = JSON.stringify(row);
     },
     isCommandRunning(row) {
       return row.status === "running"
+    },
+    isCommandFinished(row) {
+      return row.status === "finished"
     },
     async stopCommandByPid(row) {
       let headers = {
@@ -136,6 +149,11 @@ export default defineComponent({
 
       this.apiResponse = await apiServiceDelete(row.discovery + `/agents/commands/` + row.pid, headers);
       this.sendAgentApiResponseToParent();
+    },
+    async getStdOutAndErr(row) {
+      this.alert = true
+      this.isRawContent = true
+      this.rowDetails = row.out + row.err;
     },
     exportTable() {
       // naive encoding to csv format

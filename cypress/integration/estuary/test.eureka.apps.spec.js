@@ -8,7 +8,7 @@ describe('Eureka Apps', () => {
 
     cy.intercept('**/about', {fixture: 'about.json'})
 
-    cy.visit('https://localhost:8443/eureka/apps')
+    cy.visit(Cypress.env('SERVICE_UI_URL') + '/eureka/apps')
   })
 
   it('the page title can be discovered', () => {
